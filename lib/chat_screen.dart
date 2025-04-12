@@ -48,7 +48,16 @@ class _ChatScreenState extends State<ChatScreen> {
         .orderBy('timestamp', descending: true);
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.boardName)),
+      appBar: AppBar(
+  title: Text(widget.boardName),
+  backgroundColor: widget.boardName == "General Chat"
+      ? Color(0xFFC8E6C9)
+      : widget.boardName == "Tech Talk"
+          ? Color(0xFFFFD1DC)
+          : widget.boardName == "Random"
+              ? Color(0xFFB3E5FC)
+              : Color(0xFFE1BEE7),
+),
       body: Column(
         children: [
           Expanded(
@@ -66,10 +75,38 @@ class _ChatScreenState extends State<ChatScreen> {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final msg = messages[index];
-                    return ListTile(
-                      title: Text(msg['text']),
-                      subtitle: Text('${msg['senderName']} • ${msg['timestamp']?.toDate().toLocal()}'),
-                    );
+                    final isMe = msg['senderId'] == _auth.currentUser?.uid;
+
+return Align(
+  alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+  child: Container(
+    margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      color: isMe ? Colors.deepPurple.shade100 : Colors.grey.shade300,
+      borderRadius: BorderRadius.only(
+        topLeft: const Radius.circular(12),
+        topRight: const Radius.circular(12),
+        bottomLeft: isMe ? const Radius.circular(12) : const Radius.circular(0),
+        bottomRight: isMe ? const Radius.circular(0) : const Radius.circular(12),
+      ),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          msg['text'],
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '${msg['senderName']} • ${msg['timestamp'] != null ? (msg['timestamp'] as Timestamp).toDate().toLocal().toString().substring(0, 16) : 'Sending...'}',
+          style: const TextStyle(fontSize: 10, color: Colors.black54),
+        ),
+      ],
+    ),
+  ),
+);
                   },
                 );
               },

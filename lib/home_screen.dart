@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'login_screen.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
-import 'chat_screen.dart'; // Each board will link to this
+import 'chat_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,19 +12,19 @@ class HomeScreen extends StatelessWidget {
   final List<Map<String, dynamic>> messageBoards = const [
     {
       'name': 'General Chat',
-      'icon': Icons.forum,
+      'image': 'assets/general.jpeg',
     },
     {
       'name': 'Tech Talk',
-      'icon': Icons.computer,
+      'image': 'assets/tech.jpeg',
     },
     {
       'name': 'Random',
-      'icon': Icons.emoji_emotions,
+      'image': 'assets/random.jpeg',
     },
     {
       'name': 'Study Group',
-      'icon': Icons.school,
+      'image': 'assets/study_group.jpeg',
     },
   ];
 
@@ -39,7 +39,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5E1A4),
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
         title: const Text('Message Boards'),
         leading: Builder(
           builder: (context) => IconButton(
@@ -62,9 +64,7 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.message),
               title: const Text('Message Boards'),
-              onTap: () {
-                Navigator.pop(context); // close drawer
-              },
+              onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: const Icon(Icons.person),
@@ -96,21 +96,49 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
+        padding: const EdgeInsets.all(16),
         itemCount: messageBoards.length,
         itemBuilder: (context, index) {
           final board = messageBoards[index];
-          return Card(
-            child: ListTile(
-              leading: Icon(board['icon']),
-              title: Text(board['name']),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatScreen(boardName: board['name']),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatScreen(boardName: board['name']),
+                ),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              height: 180,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(
+                  image: AssetImage(board['image']),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.4),
+                    BlendMode.darken,
                   ),
-                );
-              },
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                board['name'],
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black,
+                      offset: Offset(1, 1),
+                      blurRadius: 4,
+                    )
+                  ],
+                ),
+              ),
             ),
           );
         },
