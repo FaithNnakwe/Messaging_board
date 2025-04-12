@@ -24,18 +24,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _loadUserData();
   }
 
-  Future<void> _loadUserData() async {
-    final user = _auth.currentUser;
-    if (user != null) {
-      final doc = await _firestore.collection('users').doc(user.uid).get();
-      final data = doc.data();
-      if (data != null) {
-        _firstNameController.text = data['firstName'] ?? '';
-        _lastNameController.text = data['lastName'] ?? '';
-        _roleController.text = data['role'] ?? '';
-      }
+ Future<void> _loadUserData() async {
+  final user = _auth.currentUser;
+  if (user != null) {
+    final doc = await _firestore.collection('users').doc(user.uid).get();
+    
+    // Check if the document exists
+    if (!doc.exists) {
+      // If the document doesn't exist, create it
+      await _firestore.collection('users').doc(user.uid).set({
+        'firstName': '',
+        'lastName': '',
+        'role': '',
+      });
+    }
+
+    // Now load the data from Firestore
+    final data = doc.data();
+    if (data != null) {
+      _firstNameController.text = data['firstName'] ?? '';
+      _lastNameController.text = data['lastName'] ?? '';
+      _roleController.text = data['role'] ?? '';
     }
   }
+}
 
   Future<void> _updateUserData() async {
     final user = _auth.currentUser;
