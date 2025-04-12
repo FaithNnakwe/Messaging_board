@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816835371948",
+    "project_id": "mad-messaging-board",
+    "storage_bucket": "mad-messaging-board.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816835371948:android:07a7aceb000718e523d009",
+        "android_client_info": {
+          "package_name": "com.example.messasing_baord"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLRji5g1m-fn8X2T3hv9Q-waVT9DEIYEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
