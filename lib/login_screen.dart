@@ -98,8 +98,8 @@ Future<void> _authenticate() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD0E1F9),
-      appBar: AppBar(title: Text(isLogin ? "Login" : "Sign Up")),
+      backgroundColor: Colors.deepPurple.shade100,
+      appBar: AppBar(title: Text(isLogin ? "Login" : "Sign Up",)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -120,11 +120,15 @@ Future<void> _authenticate() async {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _authenticate,
-              child: Text(isLogin ? "Login" : "Sign Up"),
+              child: Text(isLogin ? "Login" : "Sign Up", style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.black,
+              ),),
             ),
             TextButton(
               onPressed: () => setState(() => isLogin = !isLogin),
-              child: Text(isLogin ? "Create an account" : "Already have an account? Login"),
+              child: Text(isLogin ? "Create an account" : "Already have an account? Login", style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.black,
+              ),),
             ),
           ],
         ),
